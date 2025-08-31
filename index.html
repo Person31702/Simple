@@ -11,6 +11,45 @@
 <body>
     <canvas id="gameCanvas" width="600" height="400"></canvas>
     <script>
+
+const canvas = {
+    element: null,
+    context: null,
+    width: null,
+    height: null,
+    initialize: function() {
+        this.element = document.getElementById('gameCanvas');
+        this.context = this.element.getContext('2d');
+        this.width = this.element.width;
+        this.height = this.element.height;
+    },
+    clear: function() {
+        this.context.clearRect(0, 0, this.width, this.height);
+    }
+};
+
+const keys = [];
+for (let i = 0; i < 128; ++i) {
+    keys.push([false, false]);
+}
+document.addEventListener('keydown', function(event) {
+    if (event.keyCode >= 0 && event.keyCode < 128) {
+        keys[event.keyCode][0] = true;
+    }
+    else {
+        console.log("key '" + event.key + "'(code " + event.keyCode + ") out of range");
+    }
+})
+document.addEventListener('keyup', function(event) {
+    if (event.keyCode >= 0 && event.keyCode < 128) {
+        keys[event.keyCode][0] = false;
+    }
+    else {
+        console.log("key '" + event.key + "'(code " + event.keyCode + ") out of range");
+    }
+})
+
+/*
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -57,7 +96,7 @@
             requestAnimationFrame(loop);
         }
 
-        loop();
+        loop();*/
     </script>
 </body>
 </html>
