@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas Character Movement</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const radius = 20;
+        let x = canvas.width / 2;
+        let y = canvas.height / 2;
+        const speed = 5;
+
+        const keys = { w: false, a: false, s: false, d: false };
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key.toLowerCase() === 'w') keys.w = true;
+            if (e.key.toLowerCase() === 'a') keys.a = true;
+            if (e.key.toLowerCase() === 's') keys.s = true;
+            if (e.key.toLowerCase() === 'd') keys.d = true;
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key.toLowerCase() === 'w') keys.w = false;
+            if (e.key.toLowerCase() === 'a') keys.a = false;
+            if (e.key.toLowerCase() === 's') keys.s = false;
+            if (e.key.toLowerCase() === 'd') keys.d = false;
+        });
+
+        function update() {
+            if (keys.w && y - radius > 0) y -= speed;
+            if (keys.s && y + radius < canvas.height) y += speed;
+            if (keys.a && x - radius > 0) x -= speed;
+            if (keys.d && x + radius < canvas.width) x += speed;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'green';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function loop() {
+            update();
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        loop();
+    </script>
+</body>
+</html>
